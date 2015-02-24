@@ -6,8 +6,8 @@ Generate a RSS feed for podcast for Laravel 4.
 
 ## Installation
 
-- [Podcast on Packagist](https://packagist.org/packages/torann/podcast)
-- [Podcast on GitHub](https://github.com/torann/laravel-podcast)
+- [Podcast on Packagist](https://packagist.org/packages/torann/podcastfeed)
+- [Podcast on GitHub](https://github.com/torann/podcastfeed)
 
 To get the latest version of Moderate simply require it in your `composer.json` file.
 
