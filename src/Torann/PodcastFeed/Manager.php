@@ -121,11 +121,11 @@ class Manager {
         $this->author      = array_get($data, 'author', $this->getDefault('author'));
 
         // Optional values
-        $this->category  = array_get($data, 'category', $this->getDefault('author'));
-        $this->subtitle  = array_get($data, 'subtitle', $this->getDefault('author'));
-        $this->language  = array_get($data, 'language', $this->getDefault('author'));
-        $this->email     = array_get($data, 'email', $this->getDefault('author'));
-        $this->copyright = array_get($data, 'copyright', $this->getDefault('author'));
+        $this->category  = array_get($data, 'category', $this->getDefault('category'));
+        $this->subtitle  = array_get($data, 'subtitle', $this->getDefault('subtitle'));
+        $this->language  = array_get($data, 'language', $this->getDefault('language'));
+        $this->email     = array_get($data, 'email', $this->getDefault('email'));
+        $this->copyright = array_get($data, 'copyright', $this->getDefault('copyright'));
     }
 
     /**
