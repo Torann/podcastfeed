@@ -1,10 +1,11 @@
-<?php namespace Torann\PodcastFeed;
+<?php
+
+namespace Torann\PodcastFeed;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Foundation\AliasLoader;
 
-class PodcastFeedServiceProvider extends ServiceProvider {
-
+class PodcastFeedServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -19,9 +20,9 @@ class PodcastFeedServiceProvider extends ServiceProvider {
      */
     public function boot()
     {
-        $this->package('torann/podcastfeed');
-
-        AliasLoader::getInstance()->alias('PodcastFeed', 'Torann\PodcastFeed\Facades\PodcastFeed');
+        $this->publishes([
+            __DIR__ . '/../../config/podcast-feed.php' => config_path('podcast-feed.php'),
+        ]);
     }
 
     /**
@@ -31,12 +32,16 @@ class PodcastFeedServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app->bind('torann.podcastfeed', function ($app)
-        {
-            $config = $app->config->get('podcastfeed::config', array());
+        $this->app->bind('torann.podcastfeed', function ($app) {
+            $config = $app->config->get('podcast-feed', []);
 
             return new Manager($config);
         });
+
+        // Merge config
+        $this->mergeConfigFrom(
+            __DIR__ . '/../../config/podcast-feed.php', 'podcast-feed'
+        );
     }
 
     /**
@@ -46,7 +51,6 @@ class PodcastFeedServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array();
+        return [];
     }
-
 }

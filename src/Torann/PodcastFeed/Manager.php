@@ -1,15 +1,17 @@
-<?php namespace Torann\PodcastFeed;
+<?php
+
+namespace Torann\PodcastFeed;
 
 use DateTime;
 
-class Manager {
-
+class Manager
+{
     /**
      * Package Config
      *
      * @var array
      */
-    protected $config = array();
+    protected $config = [];
 
     /**
      * General title of the podcast
@@ -93,7 +95,7 @@ class Manager {
      *
      * @var array
      */
-    private $media = array();
+    private $media = [];
 
     /**
      * Class constructor.
@@ -105,27 +107,44 @@ class Manager {
         $this->config = $config;
 
         // Set default headers
-        $this->setHeader(array());
+        $this->setHeader([]);
     }
 
-    /*
+    /**
      * Set the header of the podcast feed
+     *
+     * @param mixed $data
      */
     public function setHeader($data)
     {
         // Required
-        $this->title       = array_get($data, 'title', $this->getDefault('title'));
-        $this->description = array_get($data, 'description', $this->getDefault('description'));
-        $this->link        = array_get($data, 'link', $this->getDefault('link'));
-        $this->image       = array_get($data, 'image', $this->getDefault('image'));
-        $this->author      = array_get($data, 'author', $this->getDefault('author'));
+        $this->title = $this->getValue($data, 'title');
+        $this->description = $this->getValue($data, 'description');
+        $this->link = $this->getValue($data, 'link');
+        $this->image = $this->getValue($data, 'image');
+        $this->author = $this->getValue($data, 'author');
 
         // Optional values
-        $this->category  = array_get($data, 'category', $this->getDefault('category'));
-        $this->subtitle  = array_get($data, 'subtitle', $this->getDefault('subtitle'));
-        $this->language  = array_get($data, 'language', $this->getDefault('language'));
-        $this->email     = array_get($data, 'email', $this->getDefault('email'));
-        $this->copyright = array_get($data, 'copyright', $this->getDefault('copyright'));
+        $this->category = $this->getValue($data, 'category');
+        $this->subtitle = $this->getValue($data, 'subtitle');
+        $this->language = $this->getValue($data, 'language');
+        $this->email = $this->getValue($data, 'email');
+        $this->copyright = $this->getValue($data, 'copyright');
+    }
+
+    /**
+     * Get value from data and escape it.
+     *
+     * @param  mixed  $data
+     * @param  string $key
+     *
+     * @return string
+     */
+    public function getValue($data, $key)
+    {
+        $value = array_get($data, $key, $this->getDefault($key));
+
+        return htmlentities($value);
     }
 
     /**
@@ -163,6 +182,7 @@ class Manager {
      *
      * @param  string $key
      * @param  mixed  $fallback
+     *
      * @return mixed
      */
     public function getDefault($key, $fallback = null)
@@ -195,8 +215,7 @@ class Manager {
         $channel->appendChild($title);
 
         // Create the <itunes:subtitle>
-        if ($this->subtitle != null)
-        {
+        if ($this->subtitle != null) {
             $itune_subtitle = $dom->createElement("itunes:subtitle", $this->subtitle);
             $channel->appendChild($itune_subtitle);
         }
@@ -235,37 +254,32 @@ class Manager {
         $itune_owner = $dom->createElement("itunes:owner");
         $itune_owner_name = $dom->createElement("itunes:name", $this->author);
         $itune_owner->appendChild($itune_owner_name);
-        if ($this->email != null)
-        {
+        if ($this->email != null) {
             $itune_owner_email = $dom->createElement("itunes:email", $this->email);
             $itune_owner->appendChild($itune_owner_email);
         }
         $channel->appendChild($itune_owner);
 
         // Create the <itunes:category>
-        if ($this->category !== null)
-        {
+        if ($this->category !== null) {
             $category = $dom->createElement("itunes:category", $this->category);
             $channel->appendChild($category);
         }
 
         // Create the <language>
-        if ($this->language !== null)
-        {
+        if ($this->language !== null) {
             $language = $dom->createElement("language", $this->language);
             $channel->appendChild($language);
         }
 
         // Create the <copyright>
-        if ($this->copyright !== null)
-        {
+        if ($this->copyright !== null) {
             $copyright = $dom->createElement("copyright", $this->copyright);
             $channel->appendChild($copyright);
         }
 
         // Create the <items>
-        foreach ($this->media as $media)
-        {
+        foreach ($this->media as $media) {
             // Addition of media in the dom
             $media->addToDom($dom);
 
@@ -273,8 +287,10 @@ class Manager {
             if ($this->pubDate == null) {
                 $this->pubDate = $media->getPubDate();
             }
-            else if ($this->pubDate < $media->getPubDate()) {
-                $this->pubDate = $media->getPubDate();
+            else {
+                if ($this->pubDate < $media->getPubDate()) {
+                    $this->pubDate = $media->getPubDate();
+                }
             }
         }
 

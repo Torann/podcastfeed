@@ -1,44 +1,54 @@
 # Podcast Generator for Laravel
 
-Generate a RSS feed for podcast for Laravel 4.
-
-----------
+Generate a RSS feed for podcast for Laravel 5.
 
 ## Installation
 
 - [Podcast on Packagist](https://packagist.org/packages/torann/podcastfeed)
 - [Podcast on GitHub](https://github.com/torann/podcastfeed)
 
-To get the latest version of Moderate simply require it in your `composer.json` file.
 
-~~~
-"torann/podcastfeed": "0.1.*@dev"
-~~~
+From the command line run
 
-You'll then need to run `composer install` to download it and have the autoloader updated.
+```
+$ composer require torann/podcastfeed
+```
 
-Once Moderate is installed you need to register the service provider with the application. Open up `app/config/app.php` and find the `providers` key.
+### Setup
 
-~~~php
-'providers' => array(
+Once installed you need to register the service provider with the application. Open up `config/app.php` and find the `providers` key.
 
-    'Torann\PodcastFeed\PodcastFeedServiceProvider',
+```php
+'providers' => [
+    ...
+    
+    Torann\PodcastFeed\PodcastFeedServiceProvider::class,
+    
+    ...
+]
+```
 
-)
-~~~
+This package also comes with a facade, which provides an easy way to call the the class. Open up `config/app.php` and find the `aliases` key
 
-> There is no need to add the Facade, the package will add it for you.
+```php
+'aliases' => [
+    ...
+    
+    'PodcastFeed' => Torann\PodcastFeed\Facades\PodcastFeed::class,
+    
+    ...
+];
+```
 
-### Publish the config
+### Publish the configurations
 
 Run this on the command line from the root of your project:
 
-~~~
-$ php artisan config:publish torann/podcastfeed
-~~~
+```
+$ php artisan vendor:publish --provider="Torann\PodcastFeed\PodcastFeedServiceProvider"
+```
 
-This will publish Moderate's config to `app/config/packages/torann/podcastfeed/`.
-
+A configuration file will be publish to `config/podcast-feed.php`.
 
 ## Methods
 
@@ -46,7 +56,7 @@ This will publish Moderate's config to `app/config/packages/torann/podcastfeed/`
 The header of the feed can be set in the config file or manually using the `setHeader` method:
 
 ```php
-PodcastFeed::setHeader(array(
+PodcastFeed::setHeader([
     'title'       => 'All About Everything',
     'subtitle'    => 'A show about everything',
     'description' => 'Great site description',
@@ -56,8 +66,8 @@ PodcastFeed::setHeader(array(
     'email'       => 'john.doe@example.com',
     'category'    => 'Technology',
     'language'    => 'en-us',
-    'copyright'   => '2014 John Doe & Family',
-));
+    'copyright'   => '2016 John Doe & Family',
+]);
 ```
 
 **addMedia**
@@ -85,8 +95,7 @@ Converting feed to a presentable string. The example below was pulled from a con
 ```php
 public function index()
 {
-    foreach($this->podcastRepository->getPublished() as $podcast)
-    {
+    foreach($this->podcastRepository->getPublished() as $podcast) {
         PodcastFeed::addMedia([
             'title'       => $podcast->title,
             'description' => $podcast->title,
@@ -105,6 +114,11 @@ public function index()
 ```
 
 ## Change Log
+
+#### v0.2.0
+
+- Support Laravel 5
+
 
 #### v0.1.0
 

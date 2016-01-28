@@ -89,22 +89,37 @@ class Media
      */
     public function __construct($data)
     {
-        $this->title       = array_get($data, 'title');
-        $this->subtitle    = array_get($data, 'subtitle', null);
-        $this->description = array_get($data, 'description', null);
-        $this->pubDate     = array_get($data, 'publish_at');
-        $this->url         = array_get($data, 'url');
-        $this->guid        = array_get($data, 'guid');
-        $this->type        = array_get($data, 'type');
-        $this->duration    = array_get($data, 'duration');
-        $this->author      = array_get($data, 'author', null);
-        $this->image       = array_get($data, 'image', null);
+        $this->title = $this->getValue($data, 'title');
+        $this->subtitle = $this->getValue($data, 'subtitle');
+        $this->description = $this->getValue($data, 'description');
+        $this->pubDate = $this->getValue($data, 'publish_at');
+        $this->url = $this->getValue($data, 'url');
+        $this->guid = $this->getValue($data, 'guid');
+        $this->type = $this->getValue($data, 'type');
+        $this->duration = $this->getValue($data, 'duration');
+        $this->author = $this->getValue($data, 'author');
+        $this->image = $this->getValue($data, 'image');
 
         // Ensure publish date is a DateTime instance
-        if (is_string($this->pubDate))
-        {
+        if (is_string($this->pubDate)) {
             $this->pubDate = new DateTime($this->pubDate);
         }
+    }
+
+    /**
+     * Get value from data and escape it.
+     *
+     * @param  mixed  $data
+     * @param  string $key
+     * @param  mixed $default
+     *
+     * @return string
+     */
+    public function getValue($data, $key, $default = null)
+    {
+        $value = array_get($data, $key, $default);
+
+        return htmlentities($value);
     }
 
     /**
@@ -137,8 +152,7 @@ class Media
         $item->appendChild($title);
 
         // Create the <itunes:subtitle>
-        if ($this->subtitle)
-        {
+        if ($this->subtitle) {
             $itune_subtitle = $dom->createElement("itunes:subtitle", $this->subtitle);
             $item->appendChild($itune_subtitle);
         }
@@ -163,8 +177,7 @@ class Media
         $item->appendChild($enclosure);
 
         // Create the author
-        if ($this->author)
-        {
+        if ($this->author) {
             // Create the <author>
             $author = $dom->createElement("author", $this->author);
             $item->appendChild($author);
@@ -183,8 +196,7 @@ class Media
         $item->appendChild($guid);
 
         // Create the <itunes:image>
-        if ($this->image)
-        {
+        if ($this->image) {
             $itune_image = $dom->createElement("itunes:image");
             $itune_image->setAttribute("href", $this->image);
             $item->appendChild($itune_image);

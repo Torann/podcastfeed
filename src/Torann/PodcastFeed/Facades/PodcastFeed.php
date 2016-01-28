@@ -1,4 +1,6 @@
-<?php namespace Torann\PodcastFeed\Facades;
+<?php
+
+namespace Torann\PodcastFeed\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

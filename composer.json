@@ -1,6 +1,6 @@
 {
     "name": "torann/podcastfeed",
-    "description": "Generate RSS feeds for podcasts in Laravel.",
+    "description": "Generate RSS feeds for podcasts in Laravel 5.",
     "keywords": ["laravel", "podcast", "podcast generator", "rss", "xml", "feed"],
     "license": "BSD 2-Clause",
     "authors": [
@@ -10,18 +10,17 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "~4.2"
+        "php": ">=5.5.9",
+        "illuminate/support": "5.1.*|5.2.*"
     },
     "autoload": {
-        "psr-0": {
-            "Torann\\PodcastFeed": "src/"
+        "psr-4": {
+            "Torann\\PodcastFeed\\": "src/Torann/PodcastFeed/"
         }
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "0.1-dev"
+            "dev-master": "0.2-dev"
         }
-    },
-    "minimum-stability": "dev"
+    }
 }
