@@ -9,23 +9,23 @@ Generate a RSS feed for podcast for Laravel 4.
 - [Podcast on Packagist](https://packagist.org/packages/torann/podcastfeed)
 - [Podcast on GitHub](https://github.com/torann/podcastfeed)
 
-To get the latest version of Moderate simply require it in your `composer.json` file.
+To get the latest version simply require it in your `composer.json` file.
 
-~~~
+``` 
 "torann/podcastfeed": "0.1.*@dev"
-~~~
+```
 
 You'll then need to run `composer install` to download it and have the autoloader updated.
 
-Once Moderate is installed you need to register the service provider with the application. Open up `app/config/app.php` and find the `providers` key.
+Once installed you need to register the service provider with the application. Open up `app/config/app.php` and find the `providers` key.
 
-~~~php
+``` php
 'providers' => array(
 
     'Torann\PodcastFeed\PodcastFeedServiceProvider',
 
 )
-~~~
+```
 
 > There is no need to add the Facade, the package will add it for you.
 
@@ -33,19 +33,21 @@ Once Moderate is installed you need to register the service provider with the ap
 
 Run this on the command line from the root of your project:
 
-~~~
+``` 
 $ php artisan config:publish torann/podcastfeed
-~~~
+```
 
-This will publish Moderate's config to `app/config/packages/torann/podcastfeed/`.
+This will publish the config to `app/config/packages/torann/podcastfeed/`.
+
 
 
 ## Methods
 
 **setHeader**
+
 The header of the feed can be set in the config file or manually using the `setHeader` method:
 
-```php
+``` php
 PodcastFeed::setHeader(array(
     'title'       => 'All About Everything',
     'subtitle'    => 'A show about everything',
@@ -61,9 +63,10 @@ PodcastFeed::setHeader(array(
 ```
 
 **addMedia**
+
 Adding media to the feed.
 
-```php
+``` php
 foreach($this->podcastRepository->getPublished() as $podcast)
 {
     PodcastFeed::addMedia([
@@ -80,9 +83,10 @@ foreach($this->podcastRepository->getPublished() as $podcast)
 ```
 
 **toString**
+
 Converting feed to a presentable string. The example below was pulled from a controller. In theory you could implement a caching method so that it doesn't have to render each time.
 
-```php
+``` php
 public function index()
 {
     foreach($this->podcastRepository->getPublished() as $podcast)
