@@ -19,9 +19,10 @@ return [
         'image' => 'http://example.com/podcasts/everything/AllAboutEverything.jpg',
         'author' => 'John Doe',
         'email' => 'john.doe@example.com',
-        'category' => 'Technology',
+        'categories' => ['main-cat-1'=>[],'main-cat-2'=>['sub-cat1','sub-cat-2']],
         'language' => 'en-us',
         'copyright' => '2016 John Doe & Family',
+        'explicit' => 'False',
     ],
 
 ];

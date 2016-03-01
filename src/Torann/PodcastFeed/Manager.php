@@ -56,11 +56,11 @@ class Manager
     private $author;
 
     /**
-     * Category of the podcast.
+     * Categories of the podcast.
      *
-     * @var string
+     * @var array
      */
-    private $category = null;
+    private $categories = [];
 
     /**
      * Language of the podcast.
@@ -89,6 +89,13 @@ class Manager
      * @var string
      */
     private $copyright = null;
+
+    /**
+     * iTunes Explicit
+     *
+     * @var string
+     */
+    private $explicit = null;
 
     /**
      * List of media for the podcast.
@@ -123,14 +130,16 @@ class Manager
         $this->link = $this->getValue($data, 'link');
         $this->image = $this->getValue($data, 'image');
         $this->author = $this->getValue($data, 'author');
+        $this->explicit = $this->getValue($data, 'explicit');
+        $this->categories = $this->getValue($data, 'categories');
 
         // Optional values
-        $this->category = $this->getValue($data, 'category');
         $this->subtitle = $this->getValue($data, 'subtitle');
         $this->language = $this->getValue($data, 'language');
         $this->email = $this->getValue($data, 'email');
         $this->copyright = $this->getValue($data, 'copyright');
     }
+
 
     /**
      * Get value from data and escape it.
@@ -138,12 +147,25 @@ class Manager
      * @param  mixed  $data
      * @param  string $key
      *
-     * @return string
+     * @return mixed
      */
     public function getValue($data, $key)
     {
         $value = array_get($data, $key, $this->getDefault($key));
-
+        if(is_array($value))
+        {
+            $arr = [];
+            foreach($value as $key=>$item)
+            {
+                $escapedArr = [];
+                foreach($item as $subCategory)
+                {
+                    array_push($escapedArr,htmlentities($subCategory));
+                }
+                $arr[htmlentities($key)] = $escapedArr;
+            }
+            return $arr;
+        }
         return htmlentities($value);
     }
 
@@ -260,10 +282,21 @@ class Manager
         }
         $channel->appendChild($itune_owner);
 
+        // Create the <itunes:explicit>
+        $itune_explicit = $dom->createElement("itunes:explicit",$this->explicit);
+        $channel->appendChild($itune_explicit);
+
         // Create the <itunes:category>
-        if ($this->category !== null) {
-            $category = $dom->createElement("itunes:category", $this->category);
-            $channel->appendChild($category);
+        foreach($this->categories as $category=>$subcategories)
+        {
+            $node = $channel->appendChild($dom->createElement('itunes:category'));
+            $node->setAttribute("text",$category);
+            foreach($subcategories as $subcategory)
+            {
+                $subnode = $node->appendChild($dom->createElement('itunes:category'));
+                $subnode->setAttribute("text",$subcategory);
+            }
+            $channel->appendChild($node);
         }
 
         // Create the <language>

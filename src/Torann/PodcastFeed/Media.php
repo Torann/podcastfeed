@@ -1,4 +1,6 @@
-<?php namespace Torann\PodcastFeed;
+<?php
+
+namespace Torann\PodcastFeed;
 
 use DateTime;
 use DOMDocument;
@@ -18,13 +20,6 @@ class Media
      * @var string|null
      */
     private $subtitle;
-
-    /**
-     * URL to the media web site.
-     *
-     * @var string
-     */
-    private $link;
 
     /**
      * Date of publication of the media.
@@ -83,6 +78,13 @@ class Media
     private $image;
 
     /**
+     * iTunes Explicit
+     *
+     * @var string
+     */
+    private $explicit = null;
+
+    /**
      * Class constructor
      *
      * @param array $data
@@ -99,6 +101,7 @@ class Media
         $this->duration = $this->getValue($data, 'duration');
         $this->author = $this->getValue($data, 'author');
         $this->image = $this->getValue($data, 'image');
+        $this->explicit = $this->getValue($data,'explicit');
 
         // Ensure publish date is a DateTime instance
         if (is_string($this->pubDate)) {
@@ -200,6 +203,13 @@ class Media
             $itune_image = $dom->createElement("itunes:image");
             $itune_image->setAttribute("href", $this->image);
             $item->appendChild($itune_image);
+        }
+
+        // Create the <itunes:explicit>
+        if($this->explicit)
+        {
+            $itune_explicit = $dom->createElement("explicit", $this->explicit);
+            $item->appendChild($itune_explicit);
         }
     }
 }
