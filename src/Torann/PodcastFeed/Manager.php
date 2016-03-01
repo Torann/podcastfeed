@@ -154,17 +154,9 @@ class Manager
         $value = array_get($data, $key, $this->getDefault($key));
         if(is_array($value))
         {
-            $arr = [];
-            foreach($value as $key=>$item)
-            {
-                $escapedArr = [];
-                foreach($item as $subCategory)
-                {
-                    array_push($escapedArr,htmlentities($subCategory));
-                }
-                $arr[htmlentities($key)] = $escapedArr;
-            }
-            return $arr;
+            // although the itunes documentation says all characters must be escaped, if we do that with the categories then they are not recognised.
+            // not sure why this is without further investigation.
+            return $value;
         }
         return htmlentities($value);
     }

@@ -1,12 +1,17 @@
 {
-    "name": "torann/podcastfeed",
-    "description": "Generate RSS feeds for podcasts in Laravel 5.",
+    "name": "jb000/podcastfeed",
+    "description": "Generate RSS feeds for podcasts in Laravel 5. Fork from Torann/podcastfeed",
     "keywords": ["laravel", "podcast", "podcast generator", "rss", "xml", "feed"],
     "license": "BSD 2-Clause",
     "authors": [
         {
             "name": "Daniel Stainback",
             "email": "daniel@lyften.com"
+        },
+        {
+            "name": "James Banton",
+            "email": "james-banton@live.co.uk"
+            
         }
     ],
     "require": {
