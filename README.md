@@ -64,7 +64,7 @@ PodcastFeed::setHeader([
     'image'       => 'http://example.com/podcasts/everything/AllAboutEverything.jpg',
     'author'      => 'John Doe',
     'email'       => 'john.doe@example.com',
-    'category'    => 'Technology',
+     'categories'  => ['News & Politics'=>[],'Society & Culture'=>['History','Places & Travel']],
     'language'    => 'en-us',
     'copyright'   => '2016 John Doe & Family',
 ]);
