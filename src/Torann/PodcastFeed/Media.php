@@ -119,7 +119,7 @@ class Media
     {
         $value = array_get($data, $key, $default);
 
-        return htmlentities($value);
+        return htmlspecialchars($value);
     }
 
     /**
