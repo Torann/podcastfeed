@@ -21,9 +21,9 @@ Once installed you need to register the service provider with the application. O
 ```php
 'providers' => [
     ...
-    
+
     Torann\PodcastFeed\PodcastFeedServiceProvider::class,
-    
+
     ...
 ]
 ```
@@ -33,9 +33,9 @@ This package also comes with a facade, which provides an easy way to call the th
 ```php
 'aliases' => [
     ...
-    
+
     'PodcastFeed' => Torann\PodcastFeed\Facades\PodcastFeed::class,
-    
+
     ...
 ];
 ```
@@ -114,6 +114,10 @@ public function index()
 ```
 
 ## Change Log
+
+#### v0.2.1
+
+- Fixes foreign characters like 'æ', 'ø' and 'å'
 
 #### v0.2.0
 
