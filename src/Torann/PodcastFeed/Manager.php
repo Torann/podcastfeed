@@ -144,7 +144,7 @@ class Manager
     {
         $value = array_get($data, $key, $this->getDefault($key));
 
-        return htmlentities($value);
+        return htmlspecialchars($value);
     }
 
     /**
