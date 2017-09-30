@@ -179,11 +179,13 @@ class Media
         $item->appendChild($pubDate);
 
         // Create the <enclosure>
-        $enclosure = $dom->createElement("enclosure");
-        $enclosure->setAttribute("url", $this->url);
-        $enclosure->setAttribute("type", $this->type);
-        $enclosure->setAttribute("length", $this->length);
-        $item->appendChild($enclosure);
+        if($this->url && $this->type && $this->length) {
+            $enclosure = $dom->createElement("enclosure");
+            $enclosure->setAttribute("url", $this->url);
+            $enclosure->setAttribute("type", $this->type);
+            $enclosure->setAttribute("length", $this->length);
+            $item->appendChild($enclosure);
+        }
 
         // Create the author
         if ($this->author) {
