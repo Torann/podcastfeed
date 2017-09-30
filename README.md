@@ -83,6 +83,7 @@ foreach($this->podcastRepository->getPublished() as $podcast)
         'guid'        => route('podcast.show', $podcast->slug),
         'url'         => $podcast->media->url(),
         'type'        => $podcast->media_content_type,
+        'length'      => $podcast->media_size,
         'duration'    => $podcast->duration,
         'image'       => $podcast->image->url(),
     ]);
@@ -103,6 +104,7 @@ public function index()
             'guid'        => route('podcast.show', $podcast->slug),
             'url'         => $podcast->media->url(),
             'type'        => $podcast->media_content_type,
+            'length'      => $podcast->media_size,
             'duration'    => $podcast->duration,
             'image'       => $podcast->image->url(),
         ]);
