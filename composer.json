@@ -2,7 +2,7 @@
     "name": "torann/podcastfeed",
     "description": "Generate RSS feeds for podcasts in Laravel 5.",
     "keywords": ["laravel", "podcast", "podcast generator", "rss", "xml", "feed"],
-    "license": "BSD 2-Clause",
+    "license": "BSD-2-Clause",
     "authors": [
         {
             "name": "Daniel Stainback",
