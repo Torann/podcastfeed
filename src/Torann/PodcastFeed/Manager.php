@@ -261,19 +261,19 @@ class Manager
         $channel->appendChild($itune_owner);
 
         // Create the <itunes:category>
-        if ($this->category !== null) {
+        if ($this->category != null) {
             $category = $dom->createElement("itunes:category", $this->category);
             $channel->appendChild($category);
         }
 
         // Create the <language>
-        if ($this->language !== null) {
+        if ($this->language != null) {
             $language = $dom->createElement("language", $this->language);
             $channel->appendChild($language);
         }
 
         // Create the <copyright>
-        if ($this->copyright !== null) {
+        if ($this->copyright != null) {
             $copyright = $dom->createElement("copyright", $this->copyright);
             $channel->appendChild($copyright);
         }
