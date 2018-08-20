@@ -55,6 +55,13 @@ class Media
     private $type;
 
     /**
+     * Length of media in bytes
+     *
+     * @var string
+     */
+     private $length;
+
+    /**
      * Author of the media.
      *
      * @var string
@@ -96,6 +103,7 @@ class Media
         $this->url = $this->getValue($data, 'url');
         $this->guid = $this->getValue($data, 'guid');
         $this->type = $this->getValue($data, 'type');
+        $this->length = $this->getValue($data, 'length', 0);
         $this->duration = $this->getValue($data, 'duration');
         $this->author = $this->getValue($data, 'author');
         $this->image = $this->getValue($data, 'image');
@@ -171,10 +179,13 @@ class Media
         $item->appendChild($pubDate);
 
         // Create the <enclosure>
-        $enclosure = $dom->createElement("enclosure");
-        $enclosure->setAttribute("url", $this->url);
-        $enclosure->setAttribute("type", $this->type);
-        $item->appendChild($enclosure);
+        if($this->url && $this->type && $this->length) {
+            $enclosure = $dom->createElement("enclosure");
+            $enclosure->setAttribute("url", $this->url);
+            $enclosure->setAttribute("type", $this->type);
+            $enclosure->setAttribute("length", $this->length);
+            $item->appendChild($enclosure);
+        }
 
         // Create the author
         if ($this->author) {
