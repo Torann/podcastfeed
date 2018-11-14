@@ -20,6 +20,7 @@ return [
         'author' => 'John Doe',
         'email' => 'john.doe@example.com',
         'category' => 'Technology',
+        'explicit' => 'clean',
         'language' => 'en-us',
         'copyright' => '2016 John Doe & Family',
     ],

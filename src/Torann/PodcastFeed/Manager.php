@@ -63,6 +63,13 @@ class Manager
     private $category = null;
 
     /**
+     * If your feed contains explicit material or not (yes, no, clean).
+     *
+     * @var string
+     */
+    private $explicit = null;
+
+    /**
      * Language of the podcast.
      *
      * @var string
@@ -126,6 +133,7 @@ class Manager
 
         // Optional values
         $this->category = $this->getValue($data, 'category');
+        $this->explicit = $this->getValue($data, 'explicit');
         $this->subtitle = $this->getValue($data, 'subtitle');
         $this->language = $this->getValue($data, 'language');
         $this->email = $this->getValue($data, 'email');
@@ -262,8 +270,15 @@ class Manager
 
         // Create the <itunes:category>
         if ($this->category !== null) {
-            $category = $dom->createElement("itunes:category", $this->category);
+            $category = $dom->createElement("itunes:category");
+            $category->setAttribute("text", $this->category);
             $channel->appendChild($category);
+        }
+
+        // Create the <itunes:explicit>
+        if ($this->explicit !== null) {
+            $explicit = $dom->createElement("itunes:explicit", $this->explicit);
+            $channel->appendChild($explicit);
         }
 
         // Create the <language>
